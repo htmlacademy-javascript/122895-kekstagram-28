@@ -17,4 +17,17 @@ const getGeneraRandomId = (min, max) => {
 //Поиск случайного элемента в переданном массиве. (декомпозиция)
 const getRandomArrayElement = (array) => array[getGeneraRandomId(0, array.length - 1)];
 
-export { getRandomArrayElement, getGeneraRandomId };
+// Получение уникального последовательного значения "номер комментария" (замыкание)
+const getRandomId = () => {
+  let lastGaneratedId = 0;
+  return () => {
+    lastGaneratedId += 1;
+    return lastGaneratedId;
+  };
+};
+
+const createIdComments = getRandomId();
+
+/*--------- ЭКСПОРТ -----------*/
+export { getRandomArrayElement, getGeneraRandomId, createIdComments };
+
