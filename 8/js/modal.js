@@ -33,6 +33,27 @@ const drawingComment = (({ avatar, name, message }) => {
   return comment;
 });
 
+// Функция отрисовки необходимого количества комментариев
+const renderComments = () => {
+  commentsShown += COMMENTS_PORTION;
+  // если комментариев в массве больше нет
+  if (commentsShown >= commentsArray.length) {
+    commentsLoader.classList.add('hidden');
+    // полное количество комментариев
+    commentsShown = commentsArray.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
+  const commentsFragment = document.createDocumentFragment();
+  for (let i = 0; i < commentsShown; i++) {
+    const commentElement = drawingComment(commentsArray[i]);
+    commentsFragment.append(commentElement);
+  }
+  commentList.innerHTML = '';
+  commentList.append(commentsFragment);
+  commentCount.innerHTML = `${commentsShown} из <span class="comments-count">${commentsArray.length}</span> комментариев`;
+};
+
 // Функция отрисовки фотографий и комментариев в модальном окне
 const drawingPhotos = ({ url, description, likes, comments }) => {
   bigPicturePreview.querySelector('.big-picture__img img').src = url;
@@ -41,14 +62,16 @@ const drawingPhotos = ({ url, description, likes, comments }) => {
   bigPicturePreview.querySelector('.comments-count').textContent = comments.length;
   bigPictureElement.querySelector('.social__caption').textContent = description;
 
-  const fragment = document.createDocumentFragment();
-  comments.forEach((comment) => {
-    fragment.append(drawingComment(comment));
-  });
-  commentList.innerHTML = '';
-  commentList.append(fragment);
+  commentsArray = comments;
 
-  openThumbnailModal({ comments });
+  if (comments.length > 0) {
+    renderComments();
+  } else {
+    commentList.innerHTML = '';
+    commentCount.innerHTML = 'Нет <span class="comments-count"></span> комментариев';
+    commentsLoader.classList.add('hidden');
+  }
+  openThumbnailModal();
 };
 
 // Функция добавления вспомогательной информации к фотографиям
@@ -77,35 +100,10 @@ const renderGallery = (pictures) => {
   createTemplateList(pictures);
 };
 
-// Функция отрисовки необходимого количества комментариев
-const renderComments = () => {
-  commentsShown += COMMENTS_PORTION;
-  // если комментариев в массве больше нет
-  if (commentsShown >= commentsArray.length) {
-    commentsLoader.classList.add('hidden');
-    // полное количество комментариев
-    commentsShown = commentsArray.length;
-  } else {
-    commentsLoader.classList.remove('hidden');
-  }
-  const commentsFragment = document.createDocumentFragment();
-  for (let i = 0; i < commentsShown; i++) {
-    const commentElement = drawingComment(commentsArray[i]);
-    commentsFragment.append(commentElement);
-  }
-  commentList.innerHTML = '';
-  commentList.append(commentsFragment);
-  commentCount.innerHTML = `${commentsShown} из <span class="comments-count">${commentsArray.length}</span> комментариев`;
-};
-
 // Функция открытия окна при нажатии фото
-function openThumbnailModal(element) {
+function openThumbnailModal() {
   bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
-
-  commentsArray = element.comments;
-  commentsShown = 0;
-  renderComments();
 
   document.addEventListener('keydown', onModalEscKeydown);
 }
@@ -119,8 +117,5 @@ function closeThumbnailModal() {
 }
 
 commentsLoader.addEventListener('click', renderComments);
-renderComments();
 
 export { renderGallery };
-
-

@@ -10,7 +10,6 @@ const updateForm = document.querySelector('.img-upload__form');
 const hashtagField = updateForm.querySelector('.text__hashtags');
 const commentField = updateForm.querySelector('.text__description');
 
-/*----- ФОРМА -----*/
 //Функция удаления обработчика Esc при фокусе на окне хэштега
 const deleteEscKeydownForHashField = () => {
   hashtagField.addEventListener('focus', () => {
