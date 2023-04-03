@@ -51,22 +51,17 @@ const drawingPhotos = ({ url, description, likes, comments }) => {
   openThumbnailModal({ comments });
 };
 
-// Функция очистки обрабочтика
-function closeThumbnailModal() {
-  bigPictureElement.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onModalEscKeydown);
-  commentsShown = 0;
-}
-
 // Функция добавления вспомогательной информации к фотографиям
 const renderGallery = (pictures) => {
   picturesContainer.addEventListener('click', (evt) => {
+    //ищем дата-атрибуты
     const thumbnail = evt.target.closest('[data-thumbnail-id]');
+    // если их нет, то завершаем выполнение
     if (!thumbnail) {
       return;
     }
-    // Поиск объекта по которому произошел клик
+    evt.preventDefault();
+    // иначе, ведем поиск по объекту по которому произошел клик
     const picture = pictures.find(
       (item) => item.id === Number(thumbnail.dataset.thumbnailId)
     );
@@ -82,9 +77,8 @@ const renderGallery = (pictures) => {
   createTemplateList(pictures);
 };
 
-// Функция
+// Функция отрисовки необходимого количества комментариев
 const renderComments = () => {
-  //debugger;
   commentsShown += COMMENTS_PORTION;
   // если комментариев в массве больше нет
   if (commentsShown >= commentsArray.length) {
@@ -114,6 +108,14 @@ function openThumbnailModal(element) {
   renderComments();
 
   document.addEventListener('keydown', onModalEscKeydown);
+}
+
+// Функция очистки обрабочтика
+function closeThumbnailModal() {
+  bigPictureElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onModalEscKeydown);
+  commentsShown = 0;
 }
 
 commentsLoader.addEventListener('click', renderComments);
