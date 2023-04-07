@@ -1,4 +1,8 @@
-import { updateForm, hashtagField, commentField } from './form.js';
+/*
+import { blockSubmitButton, unblockSubmitButton } from './form.js';
+//import { sendData } from './load.js';
+import { showAlert } from './util.js';
+*/
 
 const HASHTAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
 
@@ -9,6 +13,10 @@ const ERROR_MAX_LENGTH_COMMENTS = 'Максимальная длина комм�
 
 const MAX_COUNT_HASTAGS = 5;
 const MAX_COMMENTS_LENGTH = 140;
+
+const updateForm = document.querySelector('.img-upload__form');
+const hashtagField = updateForm.querySelector('.text__hashtags');
+const commentField = updateForm.querySelector('.text__description');
 
 //Функция подготовки Хэштегов к валидации
 const prepareTags = (value) => value.trim().split(' ');
@@ -34,6 +42,9 @@ const pristine = new Pristine(updateForm, {
   errorTextParent: 'img-upload__field-wrapper', // Класс для элемента в котором будет вывод ошибки
   errorTextClass: 'img-upload__field-wrapper__error', // текст ошибки
 });
+
+//Функция по сбросу pristine
+const pristineReset = () => pristine.reset();
 
 //Описание валидации хэштегов №1
 pristine.addValidator(
@@ -62,6 +73,26 @@ pristine.addValidator(
   validateCommentsField,
   ERROR_MAX_LENGTH_COMMENTS
 );
+/*
+const setUserFormSubmit = (onSuccess) => {
+  updateForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(
+          (err) => {
+            showAlert(err.message);
+          }
+        )
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+*/
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
@@ -69,3 +100,5 @@ const onFormSubmit = (evt) => {
 };
 
 updateForm.addEventListener('submit', onFormSubmit);
+
+export { pristineReset };

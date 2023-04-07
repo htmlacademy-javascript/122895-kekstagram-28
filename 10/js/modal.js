@@ -1,7 +1,9 @@
 import { isEscapeKey } from './util.js';
-import { createTemplateList, picturesContainer } from './thumbnail.js';
+import { createTemplateList } from './thumbnail.js';
 
 const COMMENTS_PORTION = 5;
+
+const picturesContainer = document.querySelector('.pictures');
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPicturePreview = document.querySelector('.big-picture__preview');
@@ -36,11 +38,9 @@ const drawingComment = (({ avatar, name, message }) => {
 // Функция отрисовки необходимого количества комментариев
 const renderComments = () => {
   commentsShown += COMMENTS_PORTION;
-  // если комментариев в массве больше нет
-  if (commentsShown >= commentsArray.length) {
+  if (commentsShown >= commentsArray.length) { // если комментариев в массве больше нет
     commentsLoader.classList.add('hidden');
-    // полное количество комментариев
-    commentsShown = commentsArray.length;
+    commentsShown = commentsArray.length; // полное количество комментариев
   } else {
     commentsLoader.classList.remove('hidden');
   }
@@ -77,22 +77,19 @@ const drawingPhotos = ({ url, description, likes, comments }) => {
 // Функция добавления вспомогательной информации к фотографиям
 const renderGallery = (pictures) => {
   picturesContainer.addEventListener('click', (evt) => {
-    //ищем дата-атрибуты
-    const thumbnail = evt.target.closest('[data-thumbnail-id]');
-    // если их нет, то завершаем выполнение
-    if (!thumbnail) {
+    const thumbnail = evt.target.closest('[data-thumbnail-id]'); //ищем дата-атрибуты
+    if (!thumbnail) { // если их нет, то завершаем выполнение
       return;
     }
     evt.preventDefault();
-    // иначе, ведем поиск по объекту по которому произошел клик
-    const picture = pictures.find(
+    const picture = pictures.find( // иначе, ведем поиск по объекту по которому произошел клик
       (item) => item.id === Number(thumbnail.dataset.thumbnailId)
     );
 
     drawingPhotos(picture);
   });
 
-  //Обработчик закрытия модального окна
+  //Функция обработчик закрытия модального окна
   bigPictureClose.addEventListener('click', () => {
     closeThumbnailModal();
   });
@@ -104,7 +101,6 @@ const renderGallery = (pictures) => {
 function openThumbnailModal() {
   bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
-
   document.addEventListener('keydown', onModalEscKeydown);
 }
 

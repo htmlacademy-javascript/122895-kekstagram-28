@@ -1,17 +1,24 @@
 import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
+import { pristineReset } from './validate.js';
+
+const SubmitButtonText = {
+  IDLE: 'Отправить',
+  SENDING: 'Отправляю...'
+};
 
 const inputUploadFile = document.querySelector('#upload-file');
-const overlayForm = document.querySelector('.img-upload__overlay');
-const overlayCloseButtonForm = document.querySelector('#upload-cancel');
 const updateForm = document.querySelector('.img-upload__form');
+const overlayForm = updateForm.querySelector('.img-upload__overlay');
+const overlayCloseButtonForm = updateForm.querySelector('#upload-cancel');
+const submitButton = updateForm.querySelector('.img-upload__submit');
 
 const hashtagField = updateForm.querySelector('.text__hashtags');
 const commentField = updateForm.querySelector('.text__description');
 
 //Функция удаления обработчика Esc при фокусе на окне хэштега
-const deleteEscKeydownForHashField = () => {
+const deleteEscHashtagField = () => {
   hashtagField.addEventListener('focus', () => {
     document.removeEventListener('keydown', onModalEscKeydown);
   });
@@ -22,7 +29,7 @@ const deleteEscKeydownForHashField = () => {
 };
 
 //Функция удаления обработчика Esc при фокусе на окне комментариев
-const deleteEscKeydownForTextField = () => {
+const deleteEscCommentField = () => {
   commentField.addEventListener('focus', () => {
     document.removeEventListener('keydown', onModalEscKeydown);
   });
@@ -38,18 +45,30 @@ const openFormOverlay = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onModalEscKeydown);
 
-  deleteEscKeydownForHashField();
-  deleteEscKeydownForTextField();
+  deleteEscHashtagField();
+  deleteEscCommentField();
 };
 
 inputUploadFile.addEventListener('change', openFormOverlay);
+
+// Функци блокировки кнопки "Опубликовать" перед отправкой запроса на сервер
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+// Функци разблокировки кнопки "Опубликовать" после получения ответа
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
 
 //Функция закрытия фото
 const closeFormOverlay = () => {
   updateForm.reset(); //сбрасываем данные формы
   resetScale(); //сбрасываем масштаб
   resetEffects(); //сбрасываем эффекты
-  //pristine.reset(); //сбрасываем показ ошибок
+  pristineReset(); //сбрасываем pristine
   overlayForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
@@ -66,4 +85,9 @@ function onModalEscKeydown(evt) {
   }
 }
 
-export { updateForm, hashtagField, commentField };
+export {
+  openFormOverlay,
+  closeFormOverlay,
+  blockSubmitButton,
+  unblockSubmitButton
+};
