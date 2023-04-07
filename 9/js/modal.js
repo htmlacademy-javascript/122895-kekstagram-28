@@ -1,7 +1,9 @@
 import { isEscapeKey } from './util.js';
-import { createTemplateList, picturesContainer } from './thumbnail.js';
+import { createTemplateList } from './thumbnail.js';
 
 const COMMENTS_PORTION = 5;
+
+const picturesContainer = document.querySelector('.pictures');
 
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPicturePreview = document.querySelector('.big-picture__preview');

@@ -20,6 +20,7 @@ const createTemplateList = (dataPictures) => {
   });
 
   picturesContainer.append(listFragment);
+  picturesContainer.classList.remove('hidden');
 };
 
-export { createTemplateList, picturesContainer };
+export { createTemplateList };
