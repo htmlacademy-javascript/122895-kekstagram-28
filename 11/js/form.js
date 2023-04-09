@@ -20,22 +20,22 @@ const commentField = updateForm.querySelector('.text__description');
 //Функция удаления обработчика Esc при фокусе на окне хэштега
 const deleteEscHashtagField = () => {
   hashtagField.addEventListener('focus', () => {
-    document.removeEventListener('keydown', onModalEscKeydown);
+    document.removeEventListener('keydown', onFormEscKeydown);
   });
 
   hashtagField.addEventListener('blur', () => {
-    document.addEventListener('keydown', onModalEscKeydown);
+    document.addEventListener('keydown', onFormEscKeydown);
   });
 };
 
 //Функция удаления обработчика Esc при фокусе на окне комментариев
 const deleteEscCommentField = () => {
   commentField.addEventListener('focus', () => {
-    document.removeEventListener('keydown', onModalEscKeydown);
+    document.removeEventListener('keydown', onFormEscKeydown);
   });
 
   commentField.addEventListener('blur', () => {
-    document.addEventListener('keydown', onModalEscKeydown);
+    document.addEventListener('keydown', onFormEscKeydown);
   });
 };
 
@@ -43,7 +43,7 @@ const deleteEscCommentField = () => {
 const openFormOverlay = () => {
   overlayForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEscKeydown);
+  document.addEventListener('keydown', onFormEscKeydown);
 
   deleteEscHashtagField();
   deleteEscCommentField();
@@ -65,20 +65,20 @@ const unblockSubmitButton = () => {
 
 //Функция закрытия фото
 const closeFormOverlay = () => {
-  updateForm.reset(); //сбрасываем данные формы
   resetScale(); //сбрасываем масштаб
   resetEffects(); //сбрасываем эффекты
   pristineReset(); //сбрасываем pristine
+  updateForm.reset(); //сбрасываем данные формы
   overlayForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  document.removeEventListener('keydown', onModalEscKeydown);
+  document.removeEventListener('keydown', onFormEscKeydown);
 };
 
 overlayCloseButtonForm.addEventListener('click', closeFormOverlay);
 
-// Закрываем модалку-редактор по кнопке
-function onModalEscKeydown(evt) {
+//Функция закрытия модального окна
+function onFormEscKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeFormOverlay();
@@ -89,5 +89,6 @@ export {
   openFormOverlay,
   closeFormOverlay,
   blockSubmitButton,
-  unblockSubmitButton
+  unblockSubmitButton,
+  onFormEscKeydown
 };

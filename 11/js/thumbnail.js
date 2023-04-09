@@ -19,7 +19,7 @@ const createTemplateList = (dataPictures) => {
     listFragment.append(templateElement);
   });
 
-  picturesContainer.append(listFragment);
+  picturesContainer.append(listFragment); //отрисовка списка
   picturesContainer.classList.remove('hidden');
 };
 
