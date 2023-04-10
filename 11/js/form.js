@@ -3,6 +3,7 @@ import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 import { pristineReset } from './validate.js';
 
+// Перечисление вариантов надписи для кнопки отправки формы
 const SubmitButtonText = {
   IDLE: 'Отправить',
   SENDING: 'Отправляю...'
@@ -17,7 +18,7 @@ const submitButton = updateForm.querySelector('.img-upload__submit');
 const hashtagField = updateForm.querySelector('.text__hashtags');
 const commentField = updateForm.querySelector('.text__description');
 
-//Функция удаления обработчика Esc при фокусе на окне хэштега
+// Функция удаления обработчика Esc при фокусе на окне хэштега
 const deleteEscHashtagField = () => {
   hashtagField.addEventListener('focus', () => {
     document.removeEventListener('keydown', onFormEscKeydown);
@@ -28,7 +29,7 @@ const deleteEscHashtagField = () => {
   });
 };
 
-//Функция удаления обработчика Esc при фокусе на окне комментариев
+// Функция удаления обработчика Esc при фокусе на окне комментариев
 const deleteEscCommentField = () => {
   commentField.addEventListener('focus', () => {
     document.removeEventListener('keydown', onFormEscKeydown);
@@ -39,7 +40,7 @@ const deleteEscCommentField = () => {
   });
 };
 
-//Функция открытия окна при нажатии фото
+// Функция открытия окна при нажатии фото
 const openFormOverlay = () => {
   overlayForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -51,19 +52,19 @@ const openFormOverlay = () => {
 
 inputUploadFile.addEventListener('change', openFormOverlay);
 
-// Функци блокировки кнопки "Опубликовать" перед отправкой запроса на сервер
+// Функция блокировки кнопки "Опубликовать" перед отправкой запроса на сервер
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = SubmitButtonText.SENDING;
 };
 
-// Функци разблокировки кнопки "Опубликовать" после получения ответа
+// Функция разблокировки кнопки "Опубликовать" после получения ответа
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = SubmitButtonText.IDLE;
 };
 
-//Функция закрытия фото
+// Функция закрытия фото
 const closeFormOverlay = () => {
   resetScale(); //сбрасываем масштаб
   resetEffects(); //сбрасываем эффекты
@@ -77,7 +78,7 @@ const closeFormOverlay = () => {
 
 overlayCloseButtonForm.addEventListener('click', closeFormOverlay);
 
-//Функция закрытия модального окна
+// Функция закрытия модального окна
 function onFormEscKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -90,5 +91,6 @@ export {
   closeFormOverlay,
   blockSubmitButton,
   unblockSubmitButton,
-  onFormEscKeydown
+  onFormEscKeydown,
+  inputUploadFile
 };

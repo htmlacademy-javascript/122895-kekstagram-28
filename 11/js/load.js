@@ -3,7 +3,7 @@ const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 // Путь
 const Route = {
   GET_DATA: '/data',
-  SEND_DATA: '/е',
+  SEND_DATA: '/',
 };
 
 // Методы отправки
@@ -18,7 +18,7 @@ const ErrorText = {
   SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
 };
 
-//
+// Асинхронная функция загрузки и обработки данных с сервера
 const load = async (route, errorText, method = Method.GET, body = null) => {
   try {
     const response = await fetch(`${BASE_URL}${route}`, { method, body });

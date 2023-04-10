@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { createTemplateList } from './thumbnail.js';
 
-const COMMENTS_PORTION = 5;
+const COMMENTS_PORTION = 5; // Количество отрисованных комментариев
 
 const picturesContainer = document.querySelector('.pictures');
 
@@ -89,7 +89,7 @@ const renderGallery = (pictures) => {
     drawingPhotos(picture);
   });
 
-  //Функция обработчик закрытия модального окна
+  // Функция обработчик закрытия модального окна
   bigPictureClose.addEventListener('click', () => {
     closeThumbnailModal();
   });

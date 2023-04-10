@@ -1,8 +1,9 @@
-//Время задержки
+// Время длительности показа сообщения
 const ALERT_SHOW_TIME = 5000;
+// Время задержки перед повторной отправкой
 const RESENDING_DELAY = 500;
 
-//Получение уникальных ID в заданном диапазоне
+// Получение уникальных ID в заданном диапазоне
 const getGeneraRandomId = (min, max) => {
   /*
     Math.ceil   - Возвращает наименьшее целое число, большее или равное его числовому аргументу.
@@ -18,7 +19,7 @@ const getGeneraRandomId = (min, max) => {
   return Math.floor(result);
 };
 
-//Поиск случайного элемента в переданном массиве. (декомпозиция)
+// Поиск случайного элемента в переданном массиве. (декомпозиция)
 const getRandomArrayElement = (array) => array[getGeneraRandomId(0, array.length - 1)];
 
 // Получение уникального последовательного значения "номер комментария" (замыкание)
@@ -32,10 +33,10 @@ const getRandomId = () => {
 
 const createIdComments = getRandomId();
 
-//Функция для проверки клавиши Escape
+// Функция для проверки клавиши Escape
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-//Функция показывает окно при ошибке во время отправки фото
+// Функция показывает окно при ошибке во время отправки фото
 const showErorMesage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.classList.add('show-error-message');
@@ -58,7 +59,7 @@ const showErorMesage = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-//Функция для устранения дребезга (многократного повторения действий "клика")
+// Функция для устранения дребезга (многократного повторения действий "клика")
 const debounce = (callback, timeoutDelay = RESENDING_DELAY) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать

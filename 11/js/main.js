@@ -1,11 +1,11 @@
+import { showErorMesage, debounce } from './util.js'; //Функция выводит окно при ошибке //Функция для устранения дребезга
 import { setUserFormSubmit } from './validate.js'; //Функция валидации формы при отправке
 import { closeFormOverlay } from './form.js'; //Функция закрытия фото
-import { showErorMesage } from './util.js'; //Функция показывает окно при ошибке во время отправки фото
 import { renderGallery } from './modal.js'; //Функция добавления вспомогательной информации к фотографиям
-import { debounce } from './util.js'; //Функция для устранения дребезга
 import { getData } from './load.js'; //Функция получения ответа от сервера
-import './filter.js';
 import './avatar.js';
+
+//const RERENDER_DELAY = 500; // Время задержки перед повторной отправкой
 
 try {
   const dataPictures = await getData();
@@ -14,4 +14,5 @@ try {
   showErorMesage(err.message);
 }
 
+//Закрытие формы при отправке
 setUserFormSubmit(closeFormOverlay);

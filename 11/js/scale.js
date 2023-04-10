@@ -1,8 +1,8 @@
-const STEP_SCALE = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
-const DEFAULT_SCALE = 100;
-const TRANSFORM_VALUE = 100;
+const STEP_SCALE = 25; // Шаг
+const MIN_SCALE = 25; // Минимальное значение
+const MAX_SCALE = 100; // Максимальное значение
+const DEFAULT_SCALE = 100; // Значение по умолчанию
+const TRANSFORM_VALUE = 100; // Знаменатель
 
 const scaleButtonSmallerElement = document.querySelector('.scale__control--smaller');
 const scaleButtonBiggerElement = document.querySelector('.scale__control--bigger');
@@ -15,7 +15,7 @@ const scaleImage = (value) => {
   scaleInputValueElement.value = `${value}%`; //Добавляем символ % в поле формы
 };
 
-//Функция Кнопки уменьшения
+// Функция Кнопки уменьшения
 const onSmallerButtonClick = () => {
   const currentValue = parseInt(scaleInputValueElement.value, 10);
   let newValue = currentValue - STEP_SCALE;
@@ -25,7 +25,7 @@ const onSmallerButtonClick = () => {
   scaleImage(newValue);
 };
 
-//Функция Кнопки увеличения
+// Функция Кнопки увеличения
 const onBiggerButtonClick = () => {
   const currentValue = parseInt(scaleInputValueElement.value, 10);
   let newValue = currentValue + STEP_SCALE;
@@ -35,7 +35,7 @@ const onBiggerButtonClick = () => {
   scaleImage(newValue);
 };
 
-//Функция по сбросу значения шкалы
+// Функция по сбросу значения шкалы
 const resetScale = () => scaleImage(DEFAULT_SCALE);
 
 scaleButtonSmallerElement.addEventListener('click', onSmallerButtonClick);

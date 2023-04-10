@@ -10,8 +10,8 @@ const EFFECTS_FILTER = [
   createEffect('heat', 'brightness', 1, 3, 0.1, ''),
 ];
 
-const DEFAULT_EFFECTS_VALUE = 100;
-const DEFAULT_EFFECT = EFFECTS_FILTER[0];
+const DEFAULT_EFFECTS_VALUE = 100; // Значение слайдера по умолчанию
+const DEFAULT_EFFECT = EFFECTS_FILTER[0]; // Эффект по умолчанию
 
 // Функция-фабрика для создания объектов эффектов
 function createEffect(name, style, min, max, step, unit) {
@@ -41,7 +41,7 @@ const hideSlider = () => sliderContainer.classList.add('hidden');
 // Функция по показу слайдера
 const showSlider = () => sliderContainer.classList.remove('hidden');
 
-//Функция по обновлению слайдера в зависимости от текущего эффекта
+// Функция по обновлению слайдера в зависимости от текущего эффекта
 const updateSlider = () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -60,7 +60,7 @@ const updateSlider = () => {
   // sliderContainer.classList.toggle('hidden', isDefaultEffect()); // замена двух функций или же использоать if
 };
 
-//Обработчик для изменения эффектов
+// Обработчик для изменения эффектов
 const onEffectsChange = (evt) => { //Когда пользователь выбирает новый эффект, текущий эффект обновляется
   if (!evt.target.classList.contains('effects__radio')) {
     return;
@@ -72,7 +72,7 @@ const onEffectsChange = (evt) => { //Когда пользователь выб�
 
 effectsElement.addEventListener('change', onEffectsChange);
 
-//Обработчик обновления изображения при изменении значения слайдера
+// Обработчик обновления изображения при изменении значения слайдера
 const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   if (isDeffaultEffect()) {
@@ -83,7 +83,7 @@ const onSliderUpdate = () => {
   effectLevelElement.value = sliderValue;
 };
 
-//Функция по сбросу эффектов
+// Функция по сбросу эффектов
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
   updateSlider();
@@ -100,9 +100,8 @@ window.noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-//Прячем слайдер
+// Прячем слайдер
 hideSlider();
-
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
 export { resetEffects };
