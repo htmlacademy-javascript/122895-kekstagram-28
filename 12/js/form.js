@@ -1,7 +1,7 @@
+import { pristineReset } from './validate.js';
+import { resetEffects } from './effects.js';
 import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
-import { resetEffects } from './effects.js';
-import { pristineReset } from './validate.js';
 
 // Перечисление вариантов надписи для кнопки отправки формы
 const SubmitButtonText = {

@@ -1,5 +1,5 @@
-import { isEscapeKey } from './util.js';
 import { createTemplateList } from './thumbnail.js';
+import { isEscapeKey } from './util.js';
 
 const COMMENTS_PORTION = 5; // Количество отрисованных комментариев
 
