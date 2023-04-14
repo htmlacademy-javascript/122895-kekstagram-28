@@ -1,19 +1,17 @@
 import { imageUploadPreview } from './scale.js';
 
-// Массив объектов с описанием различных эффектов для обработки изображений
-const EFFECTS_FILTER = [
-  createEffect('none', 'none', 0, 100, 1, ''),
-  createEffect('chrome', 'grayscale', 0, 1, 0.1, ''),
-  createEffect('sepia', 'sepia', 0, 1, 0.1, ''),
-  createEffect('marvin', 'invert', 0, 100, 1, '%'),
-  createEffect('phobos', 'blur', 0, 3, 0.1, 'px'),
-  createEffect('heat', 'brightness', 1, 3, 0.1, ''),
-];
+const EFFECTS = {
+  none: createEffect('none', 'none', 0, 100, 1, ''),
+  chrome: createEffect('chrome', 'grayscale', 0, 1, 0.1, ''),
+  sepia: createEffect('sepia', 'sepia', 0, 1, 0.1, ''),
+  marvin: createEffect('marvin', 'invert', 0, 100, 1, '%'),
+  phobos: createEffect('phobos', 'blur', 0, 3, 0.1, 'px'),
+  heat: createEffect('heat', 'brightness', 1, 3, 0.1, ''),
+};
 
-const DEFAULT_EFFECTS_VALUE = 100; // Значение слайдера по умолчанию
-const DEFAULT_EFFECT = EFFECTS_FILTER[0]; // Эффект по умолчанию
+const DEFAULT_EFFECTS_VALUE = 100;
+const DEFAULT_EFFECT = EFFECTS.none;
 
-// Функция-фабрика для создания объектов эффектов
 function createEffect(name, style, min, max, step, unit) {
   return {
     name: name,
@@ -32,16 +30,12 @@ const effectLevelElement = document.querySelector('.effect-level__value');
 
 let currentEffect = DEFAULT_EFFECT;
 
-// Функция-проверка на эффект по умолчанию
 const isDeffaultEffect = () => currentEffect === DEFAULT_EFFECT;
 
-// Функция по скрытию слайдера
 const hideSlider = () => sliderContainer.classList.add('hidden');
 
-// Функция по показу слайдера
 const showSlider = () => sliderContainer.classList.remove('hidden');
 
-// Функция по обновлению слайдера в зависимости от текущего эффекта
 const updateSlider = () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -59,19 +53,17 @@ const updateSlider = () => {
   }
 };
 
-// Обработчик для изменения эффектов
-const onEffectsChange = (evt) => { //Когда пользователь выбирает новый эффект, текущий эффект обновляется
+const onEffectsChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  currentEffect = EFFECTS_FILTER.find((effect) => effect.name === evt.target.value);
+  currentEffect = EFFECTS[evt.target.value];
   imageUploadPreview.className = `effects__preview--${currentEffect.name}`;
-  updateSlider(); // Слайдер обновляется в соответствии с новым эффектом.
+  updateSlider();
 };
 
 effectsElement.addEventListener('change', onEffectsChange);
 
-// Обработчик обновления изображения при изменении значения слайдера
 const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   if (isDeffaultEffect()) {
@@ -82,13 +74,11 @@ const onSliderUpdate = () => {
   effectLevelElement.value = sliderValue;
 };
 
-// Функция по сбросу эффектов
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
   updateSlider();
 };
 
-// Создание слайдера
 window.noUiSlider.create(sliderElement, {
   range: {
     min: DEFAULT_EFFECT.min,
@@ -99,7 +89,6 @@ window.noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-// Прячем слайдер
 hideSlider();
 
 sliderElement.noUiSlider.on('update', onSliderUpdate);

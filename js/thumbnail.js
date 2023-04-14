@@ -1,29 +1,32 @@
-const picturesContainer = document.querySelector('.pictures');
-const templateFragment = document.querySelector('#picture')
-  .content
-  .querySelector('.picture');
+const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
+const thumbnailContainer = document.querySelector('.pictures');
 
-// Функция отрисовки фотографий в галлереи
-const createTemplateList = (dataPictures) => {
-  const picturesAllinContainer = picturesContainer.querySelectorAll('.picture');
+const redrawingThumbnail = () => {
+  const thumbnailAllinContainer = thumbnailContainer.querySelectorAll('.picture');
+  thumbnailAllinContainer.forEach((element) => element.remove());
+};
+
+const createThumbnail = (({ url, description, likes, comments, id }) => {
+  const template = templateFragment.cloneNode(true);
+  template.querySelector('.picture__img').src = url;
+  template.querySelector('.picture__img').alt = description;
+  template.querySelector('.picture__likes').textContent = likes;
+  template.querySelector('.picture__comments').textContent = comments.length;
+  template.dataset.thumbnailId = id;
+  return template;
+});
+
+const renderThumbnail = (dataThumbnail) => {
   const listFragment = document.createDocumentFragment();
+  dataThumbnail.forEach((element) => listFragment.append(element));
+  thumbnailContainer.append(listFragment);
+  thumbnailContainer.classList.remove('hidden');
+};
 
-  dataPictures.forEach(({ url, description, likes, comments, id }) => {
-    picturesAllinContainer.forEach((element) => element.remove()); //Заново отрисовываем все изображения
-
-    const templateElement = templateFragment.cloneNode(true);
-
-    templateElement.querySelector('.picture__img').src = url;
-    templateElement.querySelector('.picture__img').alt = description;
-    templateElement.querySelector('.picture__likes').textContent = likes;
-    templateElement.querySelector('.picture__comments').textContent = comments.length;
-    templateElement.dataset.thumbnailId = id;
-
-    listFragment.append(templateElement);
-  });
-
-  picturesContainer.append(listFragment); //отрисовка списка
-  picturesContainer.classList.remove('hidden');
+const createTemplateList = (dataThumbnail) => {
+  redrawingThumbnail();
+  const templateElements = dataThumbnail.map((picture) => createThumbnail(picture));
+  renderThumbnail(templateElements);
 };
 
 export { createTemplateList };

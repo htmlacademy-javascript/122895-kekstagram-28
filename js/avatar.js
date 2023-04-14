@@ -1,18 +1,21 @@
 
-import { imageUploadPreview } from './scale.js'; //картинка, куда мы будем выставлять превью загруженного изображения
-import { inputUploadFile } from './form.js'; //поле ввода, с помощью которого пользователь выбирает изображение
+import { imageUploadPreview } from './scale.js';
+import { inputUploadFile } from './form.js';
 
-// Допустимые расширения
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-// Обработчик на поле ввода выбора изображения
-inputUploadFile.addEventListener('change', () => { //случится, когда пользователь выберет изображение
-  const fileList = inputUploadFile.files[0]; //список файлов (первый и единственный элемент)
-  const fileName = fileList.name.toLowerCase(); //name — свойство, в котором хранится имя файла.
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it)); //some возвращает булево значение, было ли совпадение
+inputUploadFile.addEventListener('change', () => {
+  const fileList = inputUploadFile.files[0];
+  const fileName = fileList.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    imageUploadPreview.src = URL.createObjectURL(fileList); //позволяет сделать ссылку на содержимое file.
+    imageUploadPreview.src = URL.createObjectURL(fileList);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${URL.createObjectURL(fileList)})`;
+    });
   }
 });
